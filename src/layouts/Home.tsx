@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import BoardPiece from '../components/BoardPiece'
+import ChessPiece from '../components/ChessPiece';
 const notionXKeys = ["A", "B", "C", "D", "E", "F", "G", "H"],
       notionYKeys = ["1", "2", "3", "4", "5", "6", "7", "8"];
 export default class Home extends Component {
@@ -15,7 +16,9 @@ export default class Home extends Component {
             height="60px"
             bg={image[(i+j) %2 == 0 ? 0 : 1]}
             index={{x: (8-i).toString(), y: notionXKeys[j]}}
-          ></BoardPiece>
+          >
+            <ChessPiece />
+          </BoardPiece>
         );
       }
     }
