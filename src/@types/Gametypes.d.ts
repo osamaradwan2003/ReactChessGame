@@ -1,11 +1,12 @@
 interface BoardProps {
-  width: number;
-  height: number;
+  width: string;
+  height: string;
   bg: string;
   index: NotionIndex;
+  children?: React.ReactElement | React.ReactNode;
 }
 
 type NotionIndex = {
-  x: number;
+  x: string;
   y: string;
 };
