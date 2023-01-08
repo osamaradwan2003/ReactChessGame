@@ -1,7 +1,13 @@
-export default class ChessSettings {
-  // private theme: ThemeSettings = new ThemeSettings();
-  // private players;
-  // private playWithAi: boolean;
+export default class ChessGame {
+  public theme: ThemeSettings;
+  private playerOne: Player;
+  private playerTwo: Player;
+
+  constructor(themeName: ThemeName, playerOne: Player, playerTwo: Player) {
+    this.theme = new ThemeSettings(themeName);
+    this.playerOne = playerOne;
+    this.playerTwo = playerTwo;
+  }
 }
 
 const availableBoardColors: AvailableBoardColors = {
@@ -20,21 +26,20 @@ class ThemeSettings {
   private PiecePostfixImageUrl: string;
   private boardColors: AvailableBoardColors;
   private themeBoardColor;
-  constructor(
-    pieceThemeName: themeName = "brownShadow",
-    themeBoardColor: string = "brown"
-  ) {
+  constructor(pieceThemeName: ThemeName = "brown_shadow") {
     this.boardColors = availableBoardColors;
     this.PiecePostfixImageUrl = ".svg";
     this.PiecePrefixImageUrl = pieceThemeName.toLocaleLowerCase().includes("no")
-      ? "./assets/piece/noShadow/"
-      : "./assets/piece/shadow/";
-    this.themeBoardColor = themeBoardColor;
+      ? "./assets/pieces/noShadow/"
+      : "./assets/pieces/shadow/";
+    this.themeBoardColor = pieceThemeName.split("_")[0];
   }
 
-  getPieceImage(name: string, color: PieceColor = "white") {
-    let c = color == "white" ? "l_" : "b_"; // image color
-    return this.PiecePrefixImageUrl + c + name + this.PiecePostfixImageUrl;
+  getPieceImage(name: PieceName, color: PieceColor): string | null {
+    if (!name) return null;
+    return (
+      this.PiecePrefixImageUrl + color + "_" + name + this.PiecePostfixImageUrl
+    );
   }
 
   getBoardColor(): BoardColor {

@@ -1,19 +1,51 @@
-import {useEffect, useState} from 'react'
 
-export default function ChessPiece() {
-  const prefix = "./assets/SVG with shadow/",
-      postfix = "_svg_withShadow.svg";
-  let piece = prefix + "b_queen" + postfix
+import { useDrag } from "react-dnd"
 
-  return (
-    <div style={{
-        backgroundImage: `url("${piece}")`,
-        width: "100%",
-        height:" 100%",
-        backgroundSize: "70%",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-    }}>
-    </div>
+
+export default function ChessPiece(props: PieceProps) {
+  const [{ isDragging }, drag, dragPreview] = useDrag(()=>({
+    type: "piece",
+    item: {
+      position: props.position
+    },
+    collect: (monitor)=> {
+      return{
+        isDragging: monitor.isDragging()
+      }
+    }
+  }));
+
+  return isDragging ?
+  (
+    <div
+      style={{
+            backgroundImage: `url("${props.image}")`,
+            width: "100%",
+            height:" 100%",
+            backgroundSize: "70%",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            cursor: "pointer",
+        }}
+    ></div>
+  ) 
+  :(
+    <>
+      {
+        props.image && <div
+        ref={drag}
+        style={{
+            backgroundImage: `url("${props.image}")`,
+            width: "100%",
+            height:" 100%",
+            backgroundSize: "70%",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            cursor: "pointer",
+        }}
+        >
+        </div>
+      }
+    </>
   )
 }

@@ -1,21 +1,32 @@
 type BoardPiece = {
-  value: ChessPiece;
-  boardImage: string;
+  value?: ChessPiece;
   pieceProps: BoardProps;
+  children: React.Children;
+  movFunction: CallableFunction;
 };
 
-type themeName =
-  | "brownShadow"
-  | "brownNoShadow"
-  | "grayNoShadow"
-  | "grayShadow"
-  | "blackNoShadow"
-  | "blackShadow";
+type ThemeName =
+  | "brown_shadow"
+  | "brown_noShadow"
+  | "gray_noShadow"
+  | "gray_shadow"
+  | "black_noShadow"
+  | "black_shadow";
+
+type PieceName =
+  | "queen"
+  | "bishop"
+  | "knight"
+  | "pawn"
+  | "queen"
+  | "rook"
+  | "king"
+  | undefined;
 
 type BoardPieceProps = {
   width: string;
   height: string;
-  index: NotionIndex;
+  index: NotationIndex;
   color: string;
 };
 
@@ -26,7 +37,7 @@ type BoardColor = {
   dark: string;
 };
 
-type NotionIndex = {
+type NotationIndex = {
   x: string;
   y: string;
 };
@@ -36,11 +47,32 @@ type PiecePower = {
   y: [];
 };
 
-type PieceColor = "black" | "white";
+type PieceColor = "b" | "w" | undefined;
 
 type ChessPiece = {
-  name: string;
-  power: PiecePower;
-  PiceImage: string;
+  type: PieceName;
   color: PieceColor;
+};
+
+type PieceProps = {
+  value?: ChessPiece | null;
+  image?: string | null;
+  position: [number, number];
+};
+
+interface Player {
+  name: string;
+  isAi: boolean;
+  isWhite?: boolean;
+}
+
+type ChessGameProps = {
+  theme?: string;
+  isAi: boolean;
+};
+
+type ChessBoard = (ChessPiece | null)[][];
+
+type ChessGameState = {
+  chessBoard: ChessBoard;
 };
