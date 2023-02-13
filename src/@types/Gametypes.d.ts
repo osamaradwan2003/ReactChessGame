@@ -1,6 +1,6 @@
 type BoardPiece = {
   value?: ChessPiece;
-  pieceProps: BoardProps;
+  pieceProps: BoardPieceProps;
   children: React.Children;
   movFunction: CallableFunction;
 };
@@ -13,21 +13,13 @@ type ThemeName =
   | "black_noShadow"
   | "black_shadow";
 
-type PieceName =
-  | "queen"
-  | "bishop"
-  | "knight"
-  | "pawn"
-  | "queen"
-  | "rook"
-  | "king"
-  | undefined;
+type PieceName = "b" | "n" | "p" | "q" | "r" | "k" | undefined;
 
 type BoardPieceProps = {
   width: string;
   height: string;
-  index: NotationIndex;
   color: string;
+  index: number;
 };
 
 type AvailableBoardColors = { [key: string]: BoardColor };
@@ -42,11 +34,6 @@ type NotationIndex = {
   y: string;
 };
 
-type PiecePower = {
-  x: [];
-  y: [];
-};
-
 type PieceColor = "b" | "w" | undefined;
 
 type ChessPiece = {
@@ -55,9 +42,10 @@ type ChessPiece = {
 };
 
 type PieceProps = {
-  value?: ChessPiece | null;
+  value?: ChessPiece;
   image?: string | null;
-  position: [number, number];
+  position: number;
+  piece;
 };
 
 interface Player {
@@ -72,7 +60,3 @@ type ChessGameProps = {
 };
 
 type ChessBoard = (ChessPiece | null)[][];
-
-type ChessGameState = {
-  chessBoard: ChessBoard;
-};

@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import { useDrop } from "react-dnd/dist/hooks";
 
-export default function BoardPiece(props: BoardPiece) {
+export default function TilePiece(props: BoardPiece) {
   let pieceProps = props.pieceProps
   let  position = pieceProps.index;
   let value = props.children;
-  const [collected, drop] = useDrop(()=>({
+  const [{isOver}, dropRef] = useDrop(()=>({
     accept: "piece",
-    drop(item: {[position: string]: Array<number>}){
-      props.movFunction(item.position[0], item.position[1], pieceProps.index.x, pieceProps.index.y)
-    }
+    drop(item: {currPosition: number}, monitor){
+      props.movFunction(item.currPosition, position, monitor)
+    },
+    collect: (monitor) =>({isOver: monitor.isOver()}),
   }))
   return (
       <div 
-        ref={drop}
+        ref={dropRef}
         style={{
           width : pieceProps.width,
           height : pieceProps.height,

@@ -35,8 +35,9 @@ class ThemeSettings {
     this.themeBoardColor = pieceThemeName.split("_")[0];
   }
 
-  getPieceImage(name: PieceName, color: PieceColor): string | null {
-    if (!name) return null;
+  getPieceImage(name: string): string {
+    let color = name?.match("[A-Z]+") ? "w" : "b";
+    name = name?.toLowerCase();
     return (
       this.PiecePrefixImageUrl + color + "_" + name + this.PiecePostfixImageUrl
     );

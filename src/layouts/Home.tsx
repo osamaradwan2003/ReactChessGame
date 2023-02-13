@@ -1,22 +1,29 @@
 import React, { Component } from 'react'
 import { DndProvider } from 'react-dnd';
-import BoardPiece from '../components/BoardPiece'
+import TilePiece from '../components/TilePiece'
 import ChessPiece from '../components/ChessPiece';
-import Chess from '../services/Chess';
-import { HTML5Backend } from 'react-dnd-html5-backend'
-
 import ChessGame from '../services/gameSetting';
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import Chess from '../services/Chess';
+import Board from '../services/board/Board';
+import Move from '../services/move/Move';
+import MoveStatus from '../services/move/MoveStatus';
 const notionXKeys = ["A", "B", "C", "D", "E", "F", "G", "H"],
-      notionYKeys = ["1", "2", "3", "4", "5", "6", "7", "8"];
+  notionYKeys = ["1", "2", "3", "4", "5", "6", "7", "8"];
+
+
+type ChessGameState = {
+  chessBoard: Board;
+}
 export default class Home extends Component<ChessGameProps, ChessGameState> {
 
   private gameSetting: ChessGame;
-  private gameServices: Chess;
   private boardColor: BoardColor;
-  constructor(props: ChessGameProps){
+  gameServices: Chess;
+  constructor(props: ChessGameProps) {
     super(props);
-    this.gameSetting = new ChessGame("gray_shadow", {name: 'osama', isAi: false}, {name: 'Ai', isAi: true});
-    this.gameServices  = new Chess();
+    this.gameSetting = new ChessGame("gray_shadow", { name: 'osama', isAi: false }, { name: 'Ai', isAi: true });
+    this.gameServices = new Chess();
     this.boardColor = this.gameSetting.theme.getBoardColor();
     this.state = {
       chessBoard: this.gameServices.initialGame(),
@@ -24,9 +31,18 @@ export default class Home extends Component<ChessGameProps, ChessGameState> {
   }
 
 
-  move(i1:number, j1: number, i2: number,j2: number) {
-    const newBoard =  this.gameServices.swap(i1, j1, i2,j2);
-    this.setState({chessBoard: newBoard})
+  move(currPosition: number, candidatePosition: number) {
+    // console.log(this.state.chessBoard)
+    let pieceLegalMoves: Move[] = this.state.chessBoard.currPlayer.legalMoves.flat();
+    for (let move of pieceLegalMoves) {
+      if (currPosition == move.currCoordinate && move.destinationCoordinate == candidatePosition) {
+        let moveTransition = this.state.chessBoard.currPlayer.makMove(move);
+        if (moveTransition.status == MoveStatus.isDone) {
+          this.setState({ chessBoard: moveTransition.board });
+        }
+        console.log(moveTransition)
+      }
+    }
   }
 
 
@@ -36,36 +52,38 @@ export default class Home extends Component<ChessGameProps, ChessGameState> {
       <div className='boarder-container grid'>
         <div className='y-notion'>
           {
-            notionYKeys.map((v)=>{
+            notionYKeys.map((v) => {
               return <span key={v}>{v}</span>
             })
           }
         </div>
-        <div className='grid' style={{gridTemplateColumns: "repeat(8, 60px)"}}>
-          <DndProvider backend={HTML5Backend}>
-          {
-            this.state.chessBoard.map((e, i)=>{
-              return e.map((v, j)=>{
-                return <BoardPiece
-                  movFunction={this.move.bind(this)}
-                  key={Date.now() +  (i+j) * 1000}
+        <div className='grid' style={{ gridTemplateColumns: "repeat(8, 60px)" }}>
+          <DndProvider options={{ondrag: ()=>{console.log("d")}}} backend={HTML5Backend}>
+            {
+              this.state.chessBoard.getGameBoard.map((e, i) => {
+                return <TilePiece
+                  key={i + 1}
                   pieceProps={{
-                    color: ((i+j)%2) == 0 ? this.boardColor.dark : this.boardColor.light,
-                    width: 60,
-                    height: 60,
-                    index: {x: i, y: j}
+                    width: "60px",
+                    height: "60px",
+                    color: (Math.round(i + ((i + 4) / 8)) % 2) == 0 ? this.gameSetting.theme.getBoardColor().dark : this.gameSetting.theme.getBoardColor().light,
+                    index: i,
                   }}
+                  movFunction={this.move.bind(this)}
                 >
-                  <ChessPiece position={[i, j]} value={v} image={this.gameSetting.theme.getPieceImage(v?.type, v?.color)}></ChessPiece>
-                </BoardPiece>
+                  <ChessPiece
+                    position={i}
+                    piece={e.getPiece}
+                    image={e.isOccupied() ? this.gameSetting.theme.getPieceImage(e.getPiece().toString()) : ''}
+                  ></ChessPiece>
+                </TilePiece>
               })
-            })
-          }
+            }
           </DndProvider>
         </div>
         <div className='x-notion'>
           {
-            notionXKeys.map((v)=>{
+            notionXKeys.map((v) => {
               return <span key={v}>{v}</span>
             })
           }

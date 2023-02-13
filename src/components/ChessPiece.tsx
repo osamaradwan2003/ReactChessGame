@@ -3,14 +3,15 @@ import { useDrag } from "react-dnd"
 
 
 export default function ChessPiece(props: PieceProps) {
-  const [{ isDragging }, drag, dragPreview] = useDrag(()=>({
+  const [{ isDragging },dragRef] = useDrag(()=>({
     type: "piece",
     item: {
-      position: props.position
+      currPosition: props.position,
+      props: props
     },
     collect: (monitor)=> {
       return{
-        isDragging: monitor.isDragging()
+        isDragging: !!monitor.isDragging()
       }
     }
   }));
@@ -33,7 +34,7 @@ export default function ChessPiece(props: PieceProps) {
     <>
       {
         props.image && <div
-        ref={drag}
+        ref={dragRef}
         style={{
             backgroundImage: `url("${props.image}")`,
             width: "100%",
