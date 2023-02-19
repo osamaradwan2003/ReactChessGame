@@ -1,4 +1,5 @@
 
+import { useEffect } from "react";
 import { useDrag } from "react-dnd"
 
 
@@ -15,6 +16,15 @@ export default function ChessPiece(props: PieceProps) {
       }
     }
   }));
+
+  useEffect(()=>{
+    if(isDragging && props.onDragStart){
+      props.onDragStart(props);
+    }else if(!isDragging && props.onDragEnd){
+      props.onDragEnd(props);
+    }
+  }, [isDragging])
+
 
   return isDragging ?
   (

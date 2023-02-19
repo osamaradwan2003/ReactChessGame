@@ -10,8 +10,12 @@ export default class King extends Piece {
   private static candidateCoordinates: Array<number> = [
     -9, -7, -8, -1, 1, 7, 8, 9,
   ];
-  constructor(piecePosition: number, alliance: Alliance) {
-    super(piecePosition, alliance);
+  constructor(
+    piecePosition: number,
+    alliance: Alliance,
+    isFirstMove: boolean = true
+  ) {
+    super(piecePosition, alliance, isFirstMove);
     this._name = alliance.isWhite ? "K" : "k";
   }
 
@@ -19,12 +23,11 @@ export default class King extends Piece {
   public getLegalMoves(board: Board): Move[] {
     let candidateDistance: number,
       legalMoves: Move[] = [];
-
     for (let currCandidate of King.candidateCoordinates) {
-      candidateDistance = this.piecePosition + currCandidate;
+      candidateDistance = this.position + currCandidate;
       if (
         !BoardUtils.isValidTileCoordinates(candidateDistance) ||
-        this.Exclusions(this.piecePosition, currCandidate)
+        this.Exclusions(currCandidate)
       ) {
         continue;
       }
@@ -56,14 +59,14 @@ export default class King extends Piece {
     );
   }
 
-  Exclusions(currPosition: number, candidatePosition: number): boolean {
+  Exclusions(candidatePosition: number): boolean {
     return (
-      this.firstColumnExclusion(currPosition, candidatePosition) ||
-      this.eighthColumnExclusion(candidatePosition, candidatePosition)
+      this.firstColumnExclusion(this.position, candidatePosition) ||
+      this.eighthColumnExclusion(this.position, candidatePosition)
     );
   }
 
   public movePiece(position: number, alliance: Alliance): Piece {
-    return new King(position, alliance);
+    return new King(position, alliance, false);
   }
 }

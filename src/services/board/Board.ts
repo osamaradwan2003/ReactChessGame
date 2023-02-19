@@ -128,40 +128,40 @@ export default class Board {
   static createStandardGame() {
     const builder: Builder = new Builder();
     // Black Team
-    builder.setPiece(new Rook(0, Board.Alliances.black));
+    // builder.setPiece(new Rook(0, Board.Alliances.black));
     builder.setPiece(new Knight(1, Board.Alliances.black));
-    builder.setPiece(new Bishop(2, Board.Alliances.black));
-    builder.setPiece(new Queen(3, Board.Alliances.black));
-    builder.setPiece(new King(4, Board.Alliances.black));
-    builder.setPiece(new Bishop(5, Board.Alliances.black));
+    // builder.setPiece(new Bishop(2, Board.Alliances.black));
+    // builder.setPiece(new Queen(3, Board.Alliances.black));
+    // builder.setPiece(new King(4, Board.Alliances.black));
+    // builder.setPiece(new Bishop(5, Board.Alliances.black));
     builder.setPiece(new Knight(6, Board.Alliances.black));
-    builder.setPiece(new Rook(7, Board.Alliances.black));
-    builder.setPiece(new Pawn(8, Board.Alliances.black));
-    builder.setPiece(new Pawn(9, Board.Alliances.black));
-    builder.setPiece(new Pawn(10, Board.Alliances.black));
-    builder.setPiece(new Pawn(11, Board.Alliances.black));
-    builder.setPiece(new Pawn(12, Board.Alliances.black));
-    builder.setPiece(new Pawn(13, Board.Alliances.black));
-    builder.setPiece(new Pawn(14, Board.Alliances.black));
-    builder.setPiece(new Pawn(15, Board.Alliances.black));
+    // builder.setPiece(new Rook(7, Board.Alliances.black));
+    // builder.setPiece(new Pawn(8, Board.Alliances.black));
+    // builder.setPiece(new Pawn(9, Board.Alliances.black));
+    // builder.setPiece(new Pawn(10, Board.Alliances.black));
+    // builder.setPiece(new Pawn(11, Board.Alliances.black));
+    // builder.setPiece(new Pawn(12, Board.Alliances.black));
+    // builder.setPiece(new Pawn(13, Board.Alliances.black));
+    // builder.setPiece(new Pawn(14, Board.Alliances.black));
+    // builder.setPiece(new Pawn(15, Board.Alliances.black));
 
     // White Team
-    builder.setPiece(new Pawn(48, Board.Alliances.white));
-    builder.setPiece(new Pawn(49, Board.Alliances.white));
-    builder.setPiece(new Pawn(50, Board.Alliances.white));
-    builder.setPiece(new Pawn(51, Board.Alliances.white));
-    builder.setPiece(new Pawn(52, Board.Alliances.white));
-    builder.setPiece(new Pawn(53, Board.Alliances.white));
-    builder.setPiece(new Pawn(54, Board.Alliances.white));
-    builder.setPiece(new Pawn(55, Board.Alliances.white));
-    builder.setPiece(new Rook(56, Board.Alliances.white));
+    // builder.setPiece(new Pawn(48, Board.Alliances.white));
+    // builder.setPiece(new Pawn(49, Board.Alliances.white));
+    // builder.setPiece(new Pawn(50, Board.Alliances.white));
+    // builder.setPiece(new Pawn(51, Board.Alliances.white));
+    // builder.setPiece(new Pawn(52, Board.Alliances.white));
+    // builder.setPiece(new Pawn(53, Board.Alliances.white));
+    // builder.setPiece(new Pawn(54, Board.Alliances.white));
+    // builder.setPiece(new Pawn(55, Board.Alliances.white));
+    // builder.setPiece(new Rook(56, Board.Alliances.white));
     builder.setPiece(new Knight(57, Board.Alliances.white));
-    builder.setPiece(new Bishop(58, Board.Alliances.white));
-    builder.setPiece(new Queen(59, Board.Alliances.white));
-    builder.setPiece(new King(60, Board.Alliances.white));
-    builder.setPiece(new Bishop(61, Board.Alliances.white));
+    // builder.setPiece(new Bishop(58, Board.Alliances.white));
+    // builder.setPiece(new Queen(59, Board.Alliances.white));
+    // builder.setPiece(new King(60, Board.Alliances.white));
+    // builder.setPiece(new Bishop(61, Board.Alliances.white));
     builder.setPiece(new Knight(62, Board.Alliances.white));
-    builder.setPiece(new Rook(63, Board.Alliances.white));
+    // builder.setPiece(new Rook(63, Board.Alliances.white));
     builder.setMoveMaker(Board.Alliances.white);
     return builder.build();
   }

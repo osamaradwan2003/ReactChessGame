@@ -8,12 +8,14 @@ import Chess from '../services/Chess';
 import Board from '../services/board/Board';
 import Move from '../services/move/Move';
 import MoveStatus from '../services/move/MoveStatus';
+import BoardUtils from '../services/board/BoardUtils';
 const notionXKeys = ["A", "B", "C", "D", "E", "F", "G", "H"],
   notionYKeys = ["1", "2", "3", "4", "5", "6", "7", "8"];
 
 
 type ChessGameState = {
   chessBoard: Board;
+  selectedLegalMoves: number[];
 }
 export default class Home extends Component<ChessGameProps, ChessGameState> {
 
@@ -22,11 +24,13 @@ export default class Home extends Component<ChessGameProps, ChessGameState> {
   gameServices: Chess;
   constructor(props: ChessGameProps) {
     super(props);
+    
     this.gameSetting = new ChessGame("gray_shadow", { name: 'osama', isAi: false }, { name: 'Ai', isAi: true });
     this.gameServices = new Chess();
     this.boardColor = this.gameSetting.theme.getBoardColor();
     this.state = {
       chessBoard: this.gameServices.initialGame(),
+      selectedLegalMoves: [],
     }
   }
 
@@ -45,9 +49,22 @@ export default class Home extends Component<ChessGameProps, ChessGameState> {
     }
   }
 
+  onDragStart(props:PieceProps){
+    let legalPos = this.state.chessBoard.currPlayer.legalPositions(props.piece.position)
+    // console.log(legalPos)
+    this.setState({selectedLegalMoves: legalPos});
+  }
+  onDragEnd(){
+    this.setState({selectedLegalMoves: []})
+  }
 
+  setTileColor(i:number){
+    if(this.state.selectedLegalMoves.indexOf(i) > -1) return "#f00";
+    return  (Math.round(i + ((i + 4) / 8)) % 2) == 0 ? this.gameSetting.theme.getBoardColor().dark : this.gameSetting.theme.getBoardColor().light
+  }
 
   render() {
+    window.Board = BoardUtils;
     return (
       <div className='boarder-container grid'>
         <div className='y-notion'>
@@ -63,17 +80,20 @@ export default class Home extends Component<ChessGameProps, ChessGameState> {
               this.state.chessBoard.getGameBoard.map((e, i) => {
                 return <TilePiece
                   key={i + 1}
+                  
                   pieceProps={{
                     width: "60px",
                     height: "60px",
-                    color: (Math.round(i + ((i + 4) / 8)) % 2) == 0 ? this.gameSetting.theme.getBoardColor().dark : this.gameSetting.theme.getBoardColor().light,
+                    color: this.setTileColor(i),
                     index: i,
                   }}
                   movFunction={this.move.bind(this)}
                 >
                   <ChessPiece
                     position={i}
-                    piece={e.getPiece}
+                    piece={e.getPiece()}
+                    onDragStart={this.onDragStart.bind(this)}
+                    onDragEnd = {this.onDragEnd.bind(this)}
                     image={e.isOccupied() ? this.gameSetting.theme.getPieceImage(e.getPiece().toString()) : ''}
                   ></ChessPiece>
                 </TilePiece>

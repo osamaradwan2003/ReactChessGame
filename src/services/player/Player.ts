@@ -20,16 +20,19 @@ export default abstract class Player {
     this._legalMoves = legalMoves;
     this._opponentLegalMoves = opponentLegalMoves;
     this._king = this.establishKing();
-    this._isInCheck = !(
-      Player.attacksOnTile(this._king.position, this._opponentLegalMoves.flat())
-        .length == 0
-    );
+    // this._isInCheck = !(
+    //   Player.attacksOnTile(this._king.position, this._opponentLegalMoves.flat())
+    //     .length == 0
+    // );
   }
 
-  legalPositions(piece: Piece) {
-    return this.legalMoves.flat().filter((e) => {
-      return e.piece.name == piece.name ? e.destinationCoordinate : null;
-    });
+  legalPositions(piecePos: number): number[] {
+    const legalPositions: number[] = [];
+    for (let move of this._legalMoves.flat()) {
+      if (move.currCoordinate == piecePos)
+        legalPositions.push(move.destinationCoordinate);
+    }
+    return legalPositions;
   }
 
   public static attacksOnTile(
@@ -51,7 +54,7 @@ export default abstract class Player {
         return piece;
       }
     }
-    throw new Error("Invalid Game Board");
+    // throw new Error("Invalid Game Board");
   }
 
   isLegalMove(move: Move): boolean {
@@ -95,13 +98,13 @@ export default abstract class Player {
       return new TransitionMove(this._board, move, MoveStatus.IllegalMove);
     }
     const board: Board = move.execute();
-    const attacksOnKing = Player.attacksOnTile(
-      board.currPlayer.getOpponent().king.position,
-      board.currPlayer.legalMoves.flat()
-    );
-    if (!(attacksOnKing.length == 0)) {
-      return new TransitionMove(board, move, MoveStatus.LEAVES_PLAYER_IN_CHECk);
-    }
+    // const attacksOnKing = Player.attacksOnTile(
+    //   board.currPlayer.getOpponent().king.position,
+    //   board.currPlayer.legalMoves.flat()
+    // );
+    // if (!(attacksOnKing.length == 0)) {
+    //   return new TransitionMove(board, move, MoveStatus.LEAVES_PLAYER_IN_CHECk);
+    // }
     return new TransitionMove(board, move, MoveStatus.isDone);
   }
 

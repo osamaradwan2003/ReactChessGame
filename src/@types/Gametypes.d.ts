@@ -46,6 +46,8 @@ type PieceProps = {
   image?: string | null;
   position: number;
   piece;
+  onDragStart?: CallableFunction;
+  onDragEnd?: CallableFunction;
 };
 
 interface Player {

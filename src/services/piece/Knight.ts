@@ -62,7 +62,7 @@ export default class Knight extends Piece {
   seventhColumnExclusion(currPosition: number, currCandidate: number): boolean {
     return (
       BoardUtils.isSeventhColumn[currPosition] &&
-      (currCandidate == 10 || currCandidate == -6)
+      (currCandidate == 10 || currCandidate == 6)
     );
   }
 

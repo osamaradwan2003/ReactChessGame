@@ -1,8 +1,8 @@
 export default abstract class BoardUtils {
-  static isFirstColumn: boolean[] = this.initColumns(0);
-  static isSecondeColumn: boolean[] = this.initColumns(1);
-  static isSeventhColumn: boolean[] = this.initColumns(0);
-  static isEighthColumn: boolean[] = this.initColumns(7);
+  static isFirstColumn: boolean[] = BoardUtils.initColumns(0);
+  static isSecondeColumn: boolean[] = BoardUtils.initColumns(1);
+  static isSeventhColumn: boolean[] = BoardUtils.initColumns(6);
+  static isEighthColumn: boolean[] = BoardUtils.initColumns(7);
   static TILES_CELLS: number = 64;
   static NUM_COLS: number = 8;
   private constructor() {
@@ -10,13 +10,27 @@ export default abstract class BoardUtils {
   }
 
   // get Column boolean index
-  private static initColumns(columnNumber: number): boolean[] {
-    let columns: boolean[] = Array<boolean>(BoardUtils.NUM_COLS);
+  public static initColumns(columnNumber: number): boolean[] {
+    const columns: boolean[] = Array(64).fill(false);
+
     do {
       columns[columnNumber] = true;
-      columnNumber += BoardUtils.NUM_COLS;
-    } while (columnNumber < BoardUtils.TILES_CELLS);
+      columnNumber += 8;
+    } while (columnNumber < 64);
+
     return columns;
+  }
+
+  static isSameRow(
+    piecePosition: number,
+    distanceCandidateCoordinates: number
+  ): boolean {
+    // console.log(piecePosition, distanceCandidateCoordinates);
+    piecePosition = Math.floor((piecePosition / 8) % 64);
+    distanceCandidateCoordinates = Math.floor(
+      (distanceCandidateCoordinates / 8) % 64
+    );
+    return piecePosition == distanceCandidateCoordinates;
   }
 
   public static isValidTileCoordinates(coordinates: number) {

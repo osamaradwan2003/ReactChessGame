@@ -18,22 +18,26 @@ export default class Rook extends Piece {
   public getLegalMoves(board: Board): Move[] {
     let legalMoves: Move[] = []; // all legal moves for this piece
     for (let candidateCoordinatesOffset of Rook.candidateCoordinates) {
-      let distanceCandidateCoordinates = this.piecePosition;
+      let distanceCandidateCoordinates = this.position;
       while (BoardUtils.isValidTileCoordinates(distanceCandidateCoordinates)) {
         distanceCandidateCoordinates += candidateCoordinatesOffset;
-        // Exceptions
+        if (
+          (candidateCoordinatesOffset == 1 ||
+            candidateCoordinatesOffset == -1) &&
+          !BoardUtils.isSameRow(this.position, distanceCandidateCoordinates)
+        ) {
+          continue;
+        }
         if (
           !BoardUtils.isValidTileCoordinates(distanceCandidateCoordinates) ||
           this.firstColumnExclusion(
-            this.piecePosition,
+            this.position,
             distanceCandidateCoordinates
           ) ||
-          this.eightColumnExclusion(
-            this.piecePosition,
-            distanceCandidateCoordinates
-          )
+          this.eightColumnExclusion(this.position, distanceCandidateCoordinates)
         )
-          break;
+          // Exceptions
+          continue;
         let tile: Tile = board.getTile(distanceCandidateCoordinates);
         // tile is not empty
         if (!tile.isOccupied()) {
@@ -64,7 +68,7 @@ export default class Rook extends Piece {
     currPosition: number,
     candidateOffset: number
   ): boolean {
-    return BoardUtils.isFirstColumn[currPosition] && candidateOffset == 1;
+    return BoardUtils.isEighthColumn[currPosition] && candidateOffset == 1;
   }
 
   public movePiece(position: number, alliance: Alliance): Piece {
