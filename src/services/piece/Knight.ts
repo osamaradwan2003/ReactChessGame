@@ -22,6 +22,7 @@ export default class Knight extends Piece {
 
     for (let currCandidate of Knight.candidateCoordinates) {
       candidateDistance = this.piecePosition + currCandidate;
+
       if (
         !BoardUtils.isValidTileCoordinates(candidateDistance) ||
         this.Exclusions(this.piecePosition, currCandidate)
@@ -60,9 +61,10 @@ export default class Knight extends Piece {
   }
 
   seventhColumnExclusion(currPosition: number, currCandidate: number): boolean {
+    console.log(currPosition, currCandidate);
     return (
       BoardUtils.isSeventhColumn[currPosition] &&
-      (currCandidate == 10 || currCandidate == 6)
+      (currCandidate == 10 || currCandidate == -6)
     );
   }
 
@@ -80,8 +82,8 @@ export default class Knight extends Piece {
     return (
       this.firstColumnExclusion(currPosition, candidatePosition) ||
       this.secondeColumnExclusion(currPosition, candidatePosition) ||
-      this.seventhColumnExclusion(candidatePosition, candidatePosition) ||
-      this.eighthColumnExclusion(candidatePosition, candidatePosition)
+      this.seventhColumnExclusion(currPosition, candidatePosition) ||
+      this.eighthColumnExclusion(currPosition, candidatePosition)
     );
   }
 
