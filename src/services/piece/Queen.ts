@@ -21,25 +21,27 @@ export default class Queen extends Piece {
     let legalMoves: Move[] = []; // all legal moves for this piece
     for (let candidateCoordinatesOffset of Queen.candidateCoordinates) {
       let distanceCandidateCoordinates = this.piecePosition;
-      while (BoardUtils.isValidTileCoordinates(distanceCandidateCoordinates)) {
+      while (
+        BoardUtils.isValidTileCoordinates(distanceCandidateCoordinates) &&
+        this.stopMove(distanceCandidateCoordinates)
+      ) {
         distanceCandidateCoordinates += candidateCoordinatesOffset;
         if (
           (candidateCoordinatesOffset == 1 ||
             candidateCoordinatesOffset == -1) &&
           !BoardUtils.isSameRow(this.position, distanceCandidateCoordinates)
-        ) {
+        )
           continue;
-        }
         // Exceptions
         if (
           !BoardUtils.isValidTileCoordinates(distanceCandidateCoordinates) ||
           this.firstColumnExclusion(
             this.piecePosition,
-            distanceCandidateCoordinates
+            candidateCoordinatesOffset
           ) ||
           this.eightColumnExclusion(
             this.piecePosition,
-            distanceCandidateCoordinates
+            candidateCoordinatesOffset
           )
         )
           break;
@@ -90,7 +92,7 @@ export default class Queen extends Piece {
     candidateOffset: number
   ): boolean {
     return (
-      BoardUtils.isFirstColumn[currPosition] &&
+      BoardUtils.isEighthColumn[currPosition] &&
       (candidateOffset == 1 || candidateOffset == 9 || candidateOffset == -7)
     );
   }

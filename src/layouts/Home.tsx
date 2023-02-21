@@ -64,7 +64,6 @@ export default class Home extends Component<ChessGameProps, ChessGameState> {
   }
 
   render() {
-    window.Board = BoardUtils;
     return (
       <div className='boarder-container grid'>
         <div className='y-notion'>
