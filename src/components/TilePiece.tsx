@@ -22,6 +22,7 @@ export default function TilePiece(props: BoardPiece) {
         }}
         className="chess-board-pace"
       >
+        {position}
         {value}
       </div>
   );

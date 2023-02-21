@@ -33,6 +33,7 @@ export default class Board {
   private _blackLegalMoves: Move[][];
 
   constructor(builder: Builder) {
+    console.clear();
     this.builder = builder;
     this.gameBoard = this.createGameBoard();
     this.Alliances = { white: new White(), black: new Black() };
@@ -130,10 +131,10 @@ export default class Board {
     // Black Team
     // builder.setPiece(new Rook(0, Board.Alliances.black));
     // builder.setPiece(new Knight(1, Board.Alliances.black));
-    builder.setPiece(new Bishop(2, Board.Alliances.black));
-    // builder.setPiece(new Queen(3, Board.Alliances.black));
+    // builder.setPiece(new Bishop(2, Board.Alliances.black));
+    builder.setPiece(new Queen(3, Board.Alliances.black));
     // builder.setPiece(new King(4, Board.Alliances.black));
-    builder.setPiece(new Bishop(5, Board.Alliances.black));
+    // builder.setPiece(new Bishop(5, Board.Alliances.black));
     // builder.setPiece(new Knight(6, Board.Alliances.black));
     // builder.setPiece(new Rook(7, Board.Alliances.black));
     // builder.setPiece(new Pawn(8, Board.Alliances.black));
@@ -156,10 +157,10 @@ export default class Board {
     // builder.setPiece(new Pawn(55, Board.Alliances.white));
     // builder.setPiece(new Rook(56, Board.Alliances.white));
     // builder.setPiece(new Knight(57, Board.Alliances.white));
-    builder.setPiece(new Bishop(58, Board.Alliances.white));
-    // builder.setPiece(new Queen(59, Board.Alliances.white));
+    // builder.setPiece(new Bishop(58, Board.Alliances.white));
+    builder.setPiece(new Queen(59, Board.Alliances.white));
     // builder.setPiece(new King(60, Board.Alliances.white));
-    builder.setPiece(new Bishop(61, Board.Alliances.white));
+    // builder.setPiece(new Bishop(61, Board.Alliances.white));
     // builder.setPiece(new Knight(62, Board.Alliances.white));
     // builder.setPiece(new Rook(63, Board.Alliances.white));
     builder.setMoveMaker(Board.Alliances.white);

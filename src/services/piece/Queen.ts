@@ -23,6 +23,13 @@ export default class Queen extends Piece {
       let distanceCandidateCoordinates = this.piecePosition;
       while (BoardUtils.isValidTileCoordinates(distanceCandidateCoordinates)) {
         distanceCandidateCoordinates += candidateCoordinatesOffset;
+        if (
+          (candidateCoordinatesOffset == 1 ||
+            candidateCoordinatesOffset == -1) &&
+          !BoardUtils.isSameRow(this.position, distanceCandidateCoordinates)
+        ) {
+          continue;
+        }
         // Exceptions
         if (
           !BoardUtils.isValidTileCoordinates(distanceCandidateCoordinates) ||
@@ -53,6 +60,19 @@ export default class Queen extends Piece {
       }
     }
     return legalMoves;
+  }
+
+  stopMove(distanceCandidateCoordinates: number): boolean {
+    if (BoardUtils.isFirstColumn[this.position]) {
+      return !BoardUtils.isEighthColumn[distanceCandidateCoordinates];
+    } else if (BoardUtils.isEighthColumn[this.position]) {
+      return !BoardUtils.isFirstColumn[distanceCandidateCoordinates];
+    }
+
+    return !(
+      BoardUtils.isEighthColumn[distanceCandidateCoordinates] ||
+      BoardUtils.isFirstColumn[distanceCandidateCoordinates]
+    );
   }
 
   private firstColumnExclusion(
