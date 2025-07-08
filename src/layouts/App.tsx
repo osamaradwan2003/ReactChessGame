@@ -14,7 +14,7 @@ export default class App extends Component<{}, AppState> {
     this.state = {
       chosePlayer: false,
       playerOne: "",
-      isAI: false
+      isAI: true
     };
     this.onChose = this.onChose.bind(this);
   }
