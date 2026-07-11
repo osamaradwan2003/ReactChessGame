@@ -4,7 +4,7 @@ A React TypeScript chess game with multiplayer and AI capabilities.
 
 ## Live Preview
 
-Check out the live preview of the game here: [ReactChessGame](https://chess-eng.netlify.app/) (Desktop only)
+Check out the live preview of the game here: [ReactChessGame](https://chess-board-gam.netlify.app/) (Desktop only)
 
 ## Table of Contents
 
